@@ -1,0 +1,43 @@
+title: BTC L-Shape Long Strategy
+description: 비트코인 ㄴ자 패턴 롱 전략 백테스팅 및 ML/DL 분석
+remote_theme: just-the-docs/just-the-docs
+
+url: "https://mgcha85.github.io"
+baseurl: "/crypto-hr-short"
+
+color_scheme: dark
+
+aux_links:
+  "GitHub":
+    - "https://github.com/mgcha85/crypto-hr-short"
+
+nav_enabled: true
+search_enabled: true
+
+heading_anchors: true
+
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+footer_content: "BTC L-Shape Long Strategy Backtester"
+
+ga_tracking: 
+ga_tracking_anonymize_ip: true
