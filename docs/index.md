@@ -7,7 +7,7 @@ permalink: /
 ---
 
 <div class="hero-section" markdown="0">
-  <span class="hero-badge">BTC / USDT · 1H / 5M</span>
+  <span class="hero-badge">BTC / USDT · 4H / 1H / 15M / 5M</span>
   <h1>L-Shape Long Strategy</h1>
   <p class="hero-subtitle">급락 → 횡보 → MA 돌파 패턴을 포착하는 비트코인 롱 전략</p>
 </div>
@@ -64,18 +64,20 @@ permalink: /
 
 ## 타임프레임별 비교
 
-| 항목 | 1시간봉 | 5분봉 |
-|:-----|-------:|------:|
-| 총 수익률 | **112.5%** | 50.0% |
-| 최대 낙폭 | **26%** | 24.5% |
-| 승률 | **69.7%** | 45.2% |
-| 수익/MDD | **4.33** | 2.04 |
-| ML AUC | **0.62** | 0.55 |
-| 거래 수 | 165 | 620 |
+| 항목 | 4시간봉 | 1시간봉 | 15분봉 | 5분봉 |
+|:-----|-------:|-------:|------:|------:|
+| 총 수익률 | 104%* | **112.5%** | 160%* | 50%* |
+| 최대 낙폭 | 48%* | **26%** | 35%* | 24.5%* |
+| 승률 | 81%* | **69.7%** | 37%* | 45.2% |
+| 수익/MDD | 2.17* | **4.33** | 4.56* | 2.04 |
+| ML AUC | 0.56 | **0.62** | 0.53 | 0.55 |
+| 거래 수 | 189* | 165 | 968* | 620 |
+
+<small>* 반익절 적용 기준 (4H: HC2%, 15M: HC3%)</small>
 
 {: .highlight }
-> **1시간봉이 리스크 대비 수익률에서 압도적 우위**입니다.
-> 5분봉은 거래 빈도는 높지만 노이즈로 인해 효율이 낮습니다.
+> **1시간봉이 리스크 대비 수익률에서 가장 안정적**입니다.
+> 15분봉은 반익절 적용 시 유사한 수익/MDD 비율을 달성합니다.
 
 ---
 
@@ -131,6 +133,46 @@ permalink: /
     <div class="nav-card-icon">🤖</div>
     <div class="nav-card-title">5M ML/DL 분석</div>
     <div class="nav-card-desc">AUC 0.55 - 예측력 부족</div>
+  </a>
+</div>
+
+### 15분봉 분석
+
+<div class="nav-cards" markdown="0">
+  <a class="nav-card" href="{{ '/15m' | relative_url }}">
+    <div class="nav-card-icon">📊</div>
+    <div class="nav-card-title">15M 백테스트 결과</div>
+    <div class="nav-card-desc">160% 수익, 35% MDD, 37% 승률 (HC3%)</div>
+  </a>
+  <a class="nav-card" href="{{ '/parametric-15m' | relative_url }}">
+    <div class="nav-card-icon">🔬</div>
+    <div class="nav-card-title">15M 파라메트릭 스터디</div>
+    <div class="nav-card-desc">729개 파라미터 조합 탐색</div>
+  </a>
+  <a class="nav-card" href="{{ '/ml-analysis-15m' | relative_url }}">
+    <div class="nav-card-icon">🤖</div>
+    <div class="nav-card-title">15M ML/DL 분석</div>
+    <div class="nav-card-desc">AUC 0.53 - 예측력 부족</div>
+  </a>
+</div>
+
+### 4시간봉 분석
+
+<div class="nav-cards" markdown="0">
+  <a class="nav-card" href="{{ '/4h' | relative_url }}">
+    <div class="nav-card-icon">📊</div>
+    <div class="nav-card-title">4H 백테스트 결과</div>
+    <div class="nav-card-desc">104% 수익, 48% MDD, 81% 승률 (HC2%)</div>
+  </a>
+  <a class="nav-card" href="{{ '/parametric-4h' | relative_url }}">
+    <div class="nav-card-icon">🔬</div>
+    <div class="nav-card-title">4H 파라메트릭 스터디</div>
+    <div class="nav-card-desc">729개 파라미터 조합 탐색</div>
+  </a>
+  <a class="nav-card" href="{{ '/ml-analysis-4h' | relative_url }}">
+    <div class="nav-card-icon">🤖</div>
+    <div class="nav-card-title">4H ML/DL 분석</div>
+    <div class="nav-card-desc">AUC 0.56 - 샘플 부족</div>
   </a>
 </div>
 

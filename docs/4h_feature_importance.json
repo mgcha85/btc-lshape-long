@@ -1,0 +1,22 @@
+{
+  "ma_200_slope_std": 14.152786644840285,
+  "ma_25_slope_last": 12.108686070281165,
+  "ma_25_dist_pct_last": 12.036881568773826,
+  "macd_slope_std": 11.792816401216108,
+  "vol_change_mean": 11.625648670643493,
+  "ultimate_osc_std": 11.101985946365499,
+  "bb_upper_dist_last": 9.302339095857112,
+  "above_ma_100_std": 8.982118309839628,
+  "candle_body_pct_std": 8.31151638399353,
+  "mfi_mean": 8.070792277159335,
+  "ma_200_slope_last": 7.808508454127753,
+  "upper_shadow_pct_std": 7.70205022416583,
+  "roc_last": 7.53698741029525,
+  "price_change_1_mean": 7.335671963776724,
+  "ma_50_slope_std": 6.381207184636162,
+  "price_change_5_std": 6.257849330148546,
+  "ultimate_osc_last": 5.350068509313088,
+  "ma_100_200_cross_pct_last": 5.0132261955073805,
+  "ma_100_200_cross_pct_std": 4.991605163300232,
+  "mfi_std": 4.526582384228124
+}

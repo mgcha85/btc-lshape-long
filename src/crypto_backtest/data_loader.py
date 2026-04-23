@@ -183,3 +183,96 @@ def load_5min_data(config: BacktestConfig) -> pl.DataFrame:
         result = result.filter(pl.col("datetime") <= pl.lit(config.end_date).str.to_datetime())
     
     return result
+
+
+def load_parquet_data(data_path: Path, symbol: str = "BTCUSDT") -> pl.LazyFrame:
+    """Load 1-minute data from hive-partitioned parquet files."""
+    parquet_path = data_path / symbol
+    
+    if not parquet_path.exists():
+        raise FileNotFoundError(f"No parquet data found at {parquet_path}")
+    
+    df = pl.scan_parquet(
+        str(parquet_path / "**/*.parquet"),
+        hive_partitioning=True,
+    )
+    
+    return df
+
+
+def resample_to_15min(df: pl.LazyFrame) -> pl.LazyFrame:
+    return (
+        df.with_columns(
+            (pl.col("open_time") * 1000).cast(pl.Datetime("us")).alias("datetime"),
+        )
+        .with_columns(
+            pl.col("datetime").dt.truncate("15m").alias("bar"),
+        )
+        .group_by("bar")
+        .agg(
+            pl.col("open").first().alias("open"),
+            pl.col("high").max().alias("high"),
+            pl.col("low").min().alias("low"),
+            pl.col("close").last().alias("close"),
+            pl.col("volume").sum().alias("volume"),
+            pl.col("quote_volume").sum().alias("quote_volume"),
+            pl.col("trades").sum().alias("num_trades"),
+        )
+        .sort("bar")
+        .rename({"bar": "datetime"})
+    )
+
+
+def resample_to_4h(df: pl.LazyFrame) -> pl.LazyFrame:
+    return (
+        df.with_columns(
+            (pl.col("open_time") * 1000).cast(pl.Datetime("us")).alias("datetime"),
+        )
+        .with_columns(
+            pl.col("datetime").dt.truncate("4h").alias("bar"),
+        )
+        .group_by("bar")
+        .agg(
+            pl.col("open").first().alias("open"),
+            pl.col("high").max().alias("high"),
+            pl.col("low").min().alias("low"),
+            pl.col("close").last().alias("close"),
+            pl.col("volume").sum().alias("volume"),
+            pl.col("quote_volume").sum().alias("quote_volume"),
+            pl.col("trades").sum().alias("num_trades"),
+        )
+        .sort("bar")
+        .rename({"bar": "datetime"})
+    )
+
+
+def load_15min_data(config: BacktestConfig) -> pl.DataFrame:
+    """Load and resample data to 15-minute bars from parquet."""
+    minute_data = load_parquet_data(config.data_path, config.symbol)
+    data_15m = resample_to_15min(minute_data)
+    with_indicators = add_indicators(data_15m, config.ma_periods)
+    
+    result = with_indicators.collect()
+    
+    if config.start_date:
+        result = result.filter(pl.col("datetime") >= pl.lit(config.start_date).str.to_datetime())
+    if config.end_date:
+        result = result.filter(pl.col("datetime") <= pl.lit(config.end_date).str.to_datetime())
+    
+    return result
+
+
+def load_4h_data(config: BacktestConfig) -> pl.DataFrame:
+    """Load and resample data to 4-hour bars from parquet."""
+    minute_data = load_parquet_data(config.data_path, config.symbol)
+    data_4h = resample_to_4h(minute_data)
+    with_indicators = add_indicators(data_4h, config.ma_periods)
+    
+    result = with_indicators.collect()
+    
+    if config.start_date:
+        result = result.filter(pl.col("datetime") >= pl.lit(config.start_date).str.to_datetime())
+    if config.end_date:
+        result = result.filter(pl.col("datetime") <= pl.lit(config.end_date).str.to_datetime())
+    
+    return result
