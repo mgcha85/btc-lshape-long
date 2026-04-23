@@ -1,11 +1,12 @@
 ---
 layout: default
-title: 파라메트릭 스터디
+title: 1시간봉 파라메트릭 스터디
 nav_order: 3
-permalink: /parametric/
+permalink: /parametric-1h/
+parent: 1시간봉 분석
 ---
 
-# 파라메트릭 스터디
+# 1시간봉 파라메트릭 스터디
 {: .no_toc }
 
 ## 목차

@@ -1,11 +1,12 @@
 ---
 layout: default
-title: 백테스트 결과
+title: 1시간봉 백테스트 결과
 nav_order: 2
-permalink: /results/
+permalink: /results-1h/
+parent: 1시간봉 분석
 ---
 
-# 백테스트 결과
+# 1시간봉 백테스트 결과
 {: .no_toc }
 
 ## 목차

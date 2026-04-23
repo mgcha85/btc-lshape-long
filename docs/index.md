@@ -7,7 +7,7 @@ permalink: /
 ---
 
 <div class="hero-section" markdown="0">
-  <span class="hero-badge">BTC / USDT · 1H</span>
+  <span class="hero-badge">BTC / USDT · 1H / 5M</span>
   <h1>L-Shape Long Strategy</h1>
   <p class="hero-subtitle">급락 → 횡보 → MA 돌파 패턴을 포착하는 비트코인 롱 전략</p>
 </div>
@@ -15,19 +15,19 @@ permalink: /
 <div class="stat-grid" markdown="0">
   <div class="stat-card green">
     <div class="stat-value">112.5%</div>
-    <div class="stat-label">총 수익 (4년)</div>
+    <div class="stat-label">1H 총 수익</div>
   </div>
   <div class="stat-card gold">
     <div class="stat-value">69.7%</div>
-    <div class="stat-label">승률</div>
+    <div class="stat-label">1H 승률</div>
   </div>
   <div class="stat-card red">
     <div class="stat-value">26%</div>
-    <div class="stat-label">최대 낙폭</div>
+    <div class="stat-label">1H 최대 낙폭</div>
   </div>
   <div class="stat-card blue">
-    <div class="stat-value">1.45</div>
-    <div class="stat-label">Profit Factor</div>
+    <div class="stat-value">4.33</div>
+    <div class="stat-label">1H 수익/MDD</div>
   </div>
 </div>
 
@@ -62,6 +62,23 @@ permalink: /
 
 ---
 
+## 타임프레임별 비교
+
+| 항목 | 1시간봉 | 5분봉 |
+|:-----|-------:|------:|
+| 총 수익률 | **112.5%** | 50.0% |
+| 최대 낙폭 | **26%** | 24.5% |
+| 승률 | **69.7%** | 45.2% |
+| 수익/MDD | **4.33** | 2.04 |
+| ML AUC | **0.62** | 0.55 |
+| 거래 수 | 165 | 620 |
+
+{: .highlight }
+> **1시간봉이 리스크 대비 수익률에서 압도적 우위**입니다.
+> 5분봉은 거래 빈도는 높지만 노이즈로 인해 효율이 낮습니다.
+
+---
+
 ## 전략 비교
 
 {: .highlight }
@@ -77,22 +94,49 @@ permalink: /
 
 ## 문서 탐색
 
+### 1시간봉 분석 (권장)
+
 <div class="nav-cards" markdown="0">
-  <a class="nav-card" href="{{ '/results' | relative_url }}">
+  <a class="nav-card" href="{{ '/results-1h' | relative_url }}">
     <div class="nav-card-icon">📊</div>
-    <div class="nav-card-title">백테스트 결과</div>
-    <div class="nav-card-desc">최적 설정 성과, 연도별 분석, 거래 시나리오 상세</div>
+    <div class="nav-card-title">1H 백테스트 결과</div>
+    <div class="nav-card-desc">최적 설정 성과, 연도별 분석, 거래 시나리오</div>
   </a>
-  <a class="nav-card" href="{{ '/parametric' | relative_url }}">
+  <a class="nav-card" href="{{ '/parametric-1h' | relative_url }}">
     <div class="nav-card-icon">🔬</div>
-    <div class="nav-card-title">파라메트릭 스터디</div>
-    <div class="nav-card-desc">960개 파라미터 조합 탐색 결과 및 최적화 분석</div>
+    <div class="nav-card-title">1H 파라메트릭 스터디</div>
+    <div class="nav-card-desc">960개 파라미터 조합 탐색 및 최적화</div>
   </a>
-  <a class="nav-card" href="{{ '/ml-analysis' | relative_url }}">
+  <a class="nav-card" href="{{ '/ml-analysis-1h' | relative_url }}">
     <div class="nav-card-icon">🤖</div>
-    <div class="nav-card-title">ML/DL 분석</div>
-    <div class="nav-card-desc">XGBoost · LightGBM · CNN · LSTM 기반 SL/TP 예측</div>
+    <div class="nav-card-title">1H ML/DL 분석</div>
+    <div class="nav-card-desc">AUC 0.62 - 의미있는 SL/TP 예측</div>
   </a>
+</div>
+
+### 5분봉 분석 (참고)
+
+<div class="nav-cards" markdown="0">
+  <a class="nav-card" href="{{ '/results-5m' | relative_url }}">
+    <div class="nav-card-icon">📊</div>
+    <div class="nav-card-title">5M 백테스트 결과</div>
+    <div class="nav-card-desc">50% 수익, 24.5% MDD, 45% 승률</div>
+  </a>
+  <a class="nav-card" href="{{ '/parametric-5m' | relative_url }}">
+    <div class="nav-card-icon">🔬</div>
+    <div class="nav-card-title">5M 파라메트릭 스터디</div>
+    <div class="nav-card-desc">729개 파라미터 조합 탐색</div>
+  </a>
+  <a class="nav-card" href="{{ '/ml-analysis-5m' | relative_url }}">
+    <div class="nav-card-icon">🤖</div>
+    <div class="nav-card-title">5M ML/DL 분석</div>
+    <div class="nav-card-desc">AUC 0.55 - 예측력 부족</div>
+  </a>
+</div>
+
+### 공통
+
+<div class="nav-cards" markdown="0">
   <a class="nav-card" href="{{ '/strategy' | relative_url }}">
     <div class="nav-card-icon">⚙️</div>
     <div class="nav-card-title">전략 구현 상세</div>

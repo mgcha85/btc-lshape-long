@@ -1,11 +1,12 @@
 ---
 layout: default
-title: ML/DL 분석
+title: 1시간봉 ML/DL 분석
 nav_order: 4
-permalink: /ml-analysis/
+permalink: /ml-analysis-1h/
+parent: 1시간봉 분석
 ---
 
-# ML/DL 분석
+# 1시간봉 ML/DL 분석
 {: .no_toc }
 
 ## 목차
@@ -194,3 +195,65 @@ def should_enter(indicators):
 - 다른 심볼(ETH 등) 추가로 샘플 확대
 - SMOTE 등 오버샘플링 적용
 - 앙상블 모델 구축
+
+---
+
+## 5분봉 ML 분석 결과
+
+### 5분봉 vs 1시간봉 비교
+
+| 항목 | 1시간봉 | 5분봉 |
+|:-----|:-------:|:-----:|
+| 총 캔들 수 | 43,848 | 526,176 |
+| 총 거래 수 | 165 | 620 |
+| 최적 설정 | MA100/TP10%/SL5%/HC3% | MA48/TP2%/SL1.5% |
+| 총 수익 | 112.5% | 50.0% |
+| 최대 손실 | 26% | 24.5% |
+| 승률 | 23% | 45.2% |
+
+### 5분봉 ML 성능
+
+| Model | Accuracy | Precision | Recall | F1 | AUC-ROC |
+|:------|--------:|----------:|-------:|---:|--------:|
+| XGBoost | 56.5% | 53.7% | 61.0% | 0.57 | **0.55** |
+| RandomForest | 42.7% | 41.4% | 49.2% | 0.45 | 0.47 |
+| LightGBM | 41.9% | 41.3% | 52.5% | 0.46 | 0.42 |
+| LogisticRegression | 46.0% | 43.9% | 49.2% | 0.46 | 0.41 |
+
+### Walk-Forward Validation (5분봉)
+
+| Model | AUC-ROC (mean ± std) |
+|:------|:--------------------:|
+| XGBoost | 0.56 ± 0.05 |
+| RandomForest | 0.52 ± 0.05 |
+| LightGBM | 0.52 ± 0.05 |
+| LogisticRegression | 0.46 ± 0.03 |
+
+### 5분봉 Top Features
+
+| 순위 | 피처 | 중요도 |
+|:---:|:-----|------:|
+| 1 | `candle_body_pct_last` | 29.76 |
+| 2 | `price_change_5_last` | 28.85 |
+| 3 | `ultimate_osc_std` | 22.57 |
+| 4 | `ma_100_dist_pct_last` | 22.56 |
+| 5 | `vol_ma_ratio_std` | 21.57 |
+| 6 | `vol_change_std` | 21.21 |
+| 7 | `rsi_slope_std` | 20.02 |
+| 8 | `adx_std` | 18.77 |
+| 9 | `lower_shadow_pct_mean` | 17.39 |
+| 10 | `ma_50_dist_pct_std` | 17.15 |
+
+### 결론
+
+{: .warning }
+> **5분봉 ML 예측력이 1시간봉보다 낮습니다** (AUC 0.55 vs 0.62)
+>
+> - 샘플 수는 18배 증가 (165 → 620)
+> - 하지만 5분봉은 노이즈가 많아 패턴 학습이 어려움
+> - 캔들 패턴(`candle_body_pct`)이 가장 중요한 피처로 부상
+> - 1시간봉의 이평선 이격도 중심 → 5분봉은 단기 모멘텀 중심
+
+**권장사항**: 
+- ML 기반 필터링은 **1시간봉** 사용 권장
+- 5분봉은 진입 타이밍 미세 조정에만 활용

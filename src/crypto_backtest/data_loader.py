@@ -115,6 +115,29 @@ def resample_to_hourly(df: pl.LazyFrame) -> pl.LazyFrame:
     )
 
 
+def resample_to_5min(df: pl.LazyFrame) -> pl.LazyFrame:
+    return (
+        df.with_columns(
+            pl.from_epoch("open_time", time_unit="ms").alias("datetime"),
+        )
+        .with_columns(
+            pl.col("datetime").dt.truncate("5m").alias("bar"),
+        )
+        .group_by("bar")
+        .agg(
+            pl.col("open").first().alias("open"),
+            pl.col("high").max().alias("high"),
+            pl.col("low").min().alias("low"),
+            pl.col("close").last().alias("close"),
+            pl.col("volume").sum().alias("volume"),
+            pl.col("quote_volume").sum().alias("quote_volume"),
+            pl.col("num_trades").sum().alias("num_trades"),
+        )
+        .sort("bar")
+        .rename({"bar": "datetime"})
+    )
+
+
 def add_indicators(df: pl.LazyFrame, ma_periods: list[int] | None = None) -> pl.LazyFrame:
     if ma_periods is None:
         ma_periods = MA_PERIODS
@@ -136,6 +159,21 @@ def load_hourly_data(config: BacktestConfig) -> pl.DataFrame:
     minute_data = load_minute_data(config.data_path, config.symbol)
     hourly_data = resample_to_hourly(minute_data)
     with_indicators = add_indicators(hourly_data, config.ma_periods)
+    
+    result = with_indicators.collect()
+    
+    if config.start_date:
+        result = result.filter(pl.col("datetime") >= pl.lit(config.start_date).str.to_datetime())
+    if config.end_date:
+        result = result.filter(pl.col("datetime") <= pl.lit(config.end_date).str.to_datetime())
+    
+    return result
+
+
+def load_5min_data(config: BacktestConfig) -> pl.DataFrame:
+    minute_data = load_minute_data(config.data_path, config.symbol)
+    data_5m = resample_to_5min(minute_data)
+    with_indicators = add_indicators(data_5m, config.ma_periods)
     
     result = with_indicators.collect()
     

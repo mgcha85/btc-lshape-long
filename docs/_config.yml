@@ -58,3 +58,8 @@ exclude:
   - long_half_close_parametric.csv
   - long_parametric_results.csv
   - parametric_study_results.csv
+  - 5min_parametric_results.csv
+  - 5min_ml_results.csv
+  - 5min_dl_results.csv
+  - 5min_feature_importance.json
+  - 5min_all_ml_results.csv
