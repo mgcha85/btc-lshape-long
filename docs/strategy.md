@@ -2,6 +2,7 @@
 layout: default
 title: 전략 구현
 nav_order: 5
+permalink: /strategy/
 ---
 
 # ㄴ자 (L-Shape) 전략 구현 상세

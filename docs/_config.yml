@@ -1,20 +1,28 @@
 title: BTC L-Shape Long Strategy
 description: 비트코인 ㄴ자 패턴 롱 전략 백테스팅 및 ML/DL 분석
-remote_theme: just-the-docs/just-the-docs
+remote_theme: just-the-docs/just-the-docs@v0.10.0
 
 url: "https://mgcha85.github.io"
-baseurl: "/crypto-hr-short"
+baseurl: "/btc-lshape-long"
 
 color_scheme: dark
 
 aux_links:
-  "GitHub":
-    - "https://github.com/mgcha85/crypto-hr-short"
+  "GitHub Repository":
+    - "https://github.com/mgcha85/btc-lshape-long"
+
+aux_links_new_tab: true
 
 nav_enabled: true
 search_enabled: true
+search:
+  heading_level: 3
+  previews: 3
 
 heading_anchors: true
+
+back_to_top: true
+back_to_top_text: "맨 위로"
 
 callouts:
   highlight:
@@ -31,13 +39,22 @@ callouts:
   warning:
     title: Warning
     color: red
+  tip:
+    title: Tip
+    color: green
 
 kramdown:
   syntax_highlighter_opts:
     block:
       line_numbers: false
 
-footer_content: "BTC L-Shape Long Strategy Backtester"
+footer_content: "&copy; 2026 BTC L-Shape Long Strategy &mdash; Built with <a href=\"https://just-the-docs.com\">Just the Docs</a>"
 
-ga_tracking: 
-ga_tracking_anonymize_ip: true
+exclude:
+  - "*.csv"
+  - "*.json"
+  - long_half_close_feature_importance.json
+  - long_half_close_ml_results.csv
+  - long_half_close_parametric.csv
+  - long_parametric_results.csv
+  - parametric_study_results.csv

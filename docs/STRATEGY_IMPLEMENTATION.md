@@ -1,3 +1,10 @@
+---
+layout: default
+title: 전략 구현 상세
+nav_exclude: true
+permalink: /strategy-implementation/
+---
+
 # ㄴ자 (L-Shape) 롱 전략 구현 상세
 
 ## 전략 철학

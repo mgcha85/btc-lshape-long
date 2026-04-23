@@ -2,6 +2,7 @@
 layout: default
 title: ML/DL 분석
 nav_order: 4
+permalink: /ml-analysis/
 ---
 
 # ML/DL 분석

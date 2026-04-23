@@ -2,6 +2,7 @@
 layout: default
 title: 파라메트릭 스터디
 nav_order: 3
+permalink: /parametric/
 ---
 
 # 파라메트릭 스터디

@@ -2,6 +2,7 @@
 layout: default
 title: 백테스트 결과
 nav_order: 2
+permalink: /results/
 ---
 
 # 백테스트 결과
