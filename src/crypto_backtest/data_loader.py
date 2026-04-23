@@ -276,3 +276,41 @@ def load_4h_data(config: BacktestConfig) -> pl.DataFrame:
         result = result.filter(pl.col("datetime") <= pl.lit(config.end_date).str.to_datetime())
     
     return result
+
+
+def resample_to_1h(df: pl.LazyFrame) -> pl.LazyFrame:
+    return (
+        df.with_columns(
+            (pl.col("open_time") * 1000).cast(pl.Datetime("us")).alias("datetime"),
+        )
+        .with_columns(
+            pl.col("datetime").dt.truncate("1h").alias("bar"),
+        )
+        .group_by("bar")
+        .agg(
+            pl.col("open").first().alias("open"),
+            pl.col("high").max().alias("high"),
+            pl.col("low").min().alias("low"),
+            pl.col("close").last().alias("close"),
+            pl.col("volume").sum().alias("volume"),
+            pl.col("quote_volume").sum().alias("quote_volume"),
+            pl.col("trades").sum().alias("num_trades"),
+        )
+        .sort("bar")
+        .rename({"bar": "datetime"})
+    )
+
+
+def load_1h_parquet_data(config: BacktestConfig) -> pl.DataFrame:
+    minute_data = load_parquet_data(config.data_path, config.symbol)
+    data_1h = resample_to_1h(minute_data)
+    with_indicators = add_indicators(data_1h, config.ma_periods)
+    
+    result = with_indicators.collect()
+    
+    if config.start_date:
+        result = result.filter(pl.col("datetime") >= pl.lit(config.start_date).str.to_datetime())
+    if config.end_date:
+        result = result.filter(pl.col("datetime") <= pl.lit(config.end_date).str.to_datetime())
+    
+    return result

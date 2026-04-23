@@ -176,6 +176,16 @@ permalink: /
   </a>
 </div>
 
+### Multi-Asset 분석
+
+<div class="nav-cards" markdown="0">
+  <a class="nav-card" href="{{ '/multi-asset-1h' | relative_url }}">
+    <div class="nav-card-icon">🌐</div>
+    <div class="nav-card-title">Multi-Asset 1H 분석</div>
+    <div class="nav-card-desc">ETH, SOL, XRP 등 7개 코인 비교 분석</div>
+  </a>
+</div>
+
 ### 공통
 
 <div class="nav-cards" markdown="0">

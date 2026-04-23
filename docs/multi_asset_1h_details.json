@@ -1,0 +1,198 @@
+[
+  {
+    "symbol": "ETHUSDT",
+    "candles": 55001,
+    "date_range": "2019-12-31 15:00:00 ~ 2026-04-11 15:00:00",
+    "best_config": {
+      "ma": 50,
+      "cons_bars": 5,
+      "cons_range": 3.0,
+      "drop_thresh": 3.0,
+      "take_profit": 10.0,
+      "stop_loss": 2.0,
+      "trades": 336,
+      "win_rate": 23.214285714285715,
+      "total_profit": 255.4862455712772,
+      "max_dd": 45.99999999999994,
+      "profit_factor": 1.4951283828900717
+    },
+    "best_with_hc": {
+      "half_close_pct": 3.0,
+      "trades": 390,
+      "win_rate": 43.58974358974359,
+      "total_profit": 143.1446020618945,
+      "max_dd": 41.00000000000007,
+      "profit_to_mdd": 3.4913317576071767
+    },
+    "profitable_configs": 283,
+    "total_configs": 324
+  },
+  {
+    "symbol": "SOLUSDT",
+    "candles": 49646,
+    "date_range": "2020-08-11 06:00:00 ~ 2026-04-11 15:00:00",
+    "best_config": {
+      "ma": 25,
+      "cons_bars": 3,
+      "cons_range": 5.0,
+      "drop_thresh": 3.0,
+      "take_profit": 7.0,
+      "stop_loss": 2.0,
+      "trades": 1151,
+      "win_rate": 24.76107732406603,
+      "total_profit": 257.36477912127395,
+      "max_dd": 59.99999999999997,
+      "profit_factor": 1.1485939833263705
+    },
+    "best_with_hc": {
+      "half_close_pct": 2.0,
+      "trades": 1295,
+      "win_rate": 49.96138996138996,
+      "total_profit": 121.68238956063645,
+      "max_dd": 46.500000000000114,
+      "profit_to_mdd": 2.616825581949165
+    },
+    "profitable_configs": 248,
+    "total_configs": 324
+  },
+  {
+    "symbol": "XRPUSDT",
+    "candles": 55002,
+    "date_range": "2019-12-31 15:00:00 ~ 2026-04-11 16:00:00",
+    "best_config": {
+      "ma": 50,
+      "cons_bars": 5,
+      "cons_range": 5.0,
+      "drop_thresh": 5.0,
+      "take_profit": 10.0,
+      "stop_loss": 5.0,
+      "trades": 179,
+      "win_rate": 40.78212290502793,
+      "total_profit": 200.00000000000003,
+      "max_dd": 60.00000000000007,
+      "profit_factor": 1.3773584905660374
+    },
+    "best_with_hc": {
+      "half_close_pct": 5.0,
+      "trades": 195,
+      "win_rate": 53.84615384615385,
+      "total_profit": 97.49999999999976,
+      "max_dd": 45.000000000000064,
+      "profit_to_mdd": 2.166666666666658
+    },
+    "profitable_configs": 173,
+    "total_configs": 324
+  },
+  {
+    "symbol": "ORDIUSDT",
+    "candles": 21269,
+    "date_range": "2023-11-07 12:00:00 ~ 2026-04-11 16:00:00",
+    "best_config": {
+      "ma": 50,
+      "cons_bars": 3,
+      "cons_range": 5.0,
+      "drop_thresh": 3.0,
+      "take_profit": 10.0,
+      "stop_loss": 2.0,
+      "trades": 379,
+      "win_rate": 20.052770448548813,
+      "total_profit": 145.6101694915256,
+      "max_dd": 52.00000000000007,
+      "profit_factor": 1.240280807741791
+    },
+    "best_with_hc": {
+      "half_close_pct": 5.0,
+      "trades": 392,
+      "win_rate": 29.591836734693878,
+      "total_profit": 68.80508474576254,
+      "max_dd": 61.5000000000001,
+      "profit_to_mdd": 1.118781865784755
+    },
+    "profitable_configs": 170,
+    "total_configs": 324
+  },
+  {
+    "symbol": "RENDERUSDT",
+    "candles": 14985,
+    "date_range": "2024-07-26 08:00:00 ~ 2026-04-11 16:00:00",
+    "best_config": {
+      "ma": 25,
+      "cons_bars": 3,
+      "cons_range": 3.0,
+      "drop_thresh": 5.0,
+      "take_profit": 7.0,
+      "stop_loss": 2.0,
+      "trades": 193,
+      "win_rate": 25.38860103626943,
+      "total_profit": 55.000000000000014,
+      "max_dd": 34.00000000000003,
+      "profit_factor": 1.1909722222222223
+    },
+    "best_with_hc": {
+      "half_close_pct": 5.0,
+      "trades": 194,
+      "win_rate": 30.927835051546392,
+      "total_profit": 39.499999999999865,
+      "max_dd": 37.00000000000006,
+      "profit_to_mdd": 1.0675675675675622
+    },
+    "profitable_configs": 52,
+    "total_configs": 324
+  },
+  {
+    "symbol": "GMTUSDT",
+    "candles": 35860,
+    "date_range": "2022-03-09 12:00:00 ~ 2026-04-11 16:00:00",
+    "best_config": {
+      "ma": 25,
+      "cons_bars": 5,
+      "cons_range": 3.0,
+      "drop_thresh": 5.0,
+      "take_profit": 5.0,
+      "stop_loss": 5.0,
+      "trades": 166,
+      "win_rate": 56.024096385542165,
+      "total_profit": 100.00000000000009,
+      "max_dd": 35.00000000000008,
+      "profit_factor": 1.273972602739726
+    },
+    "best_with_hc": {
+      "half_close_pct": 5.0,
+      "trades": 166,
+      "win_rate": 56.024096385542165,
+      "total_profit": 99.99999999999987,
+      "max_dd": 35.0000000000001,
+      "profit_to_mdd": 2.857142857142845
+    },
+    "profitable_configs": 112,
+    "total_configs": 324
+  },
+  {
+    "symbol": "CETUSUSDT",
+    "candles": 12509,
+    "date_range": "2024-11-06 12:00:00 ~ 2026-04-11 16:00:00",
+    "best_config": {
+      "ma": 50,
+      "cons_bars": 3,
+      "cons_range": 5.0,
+      "drop_thresh": 5.0,
+      "take_profit": 7.0,
+      "stop_loss": 3.0,
+      "trades": 120,
+      "win_rate": 35.833333333333336,
+      "total_profit": 69.99999999999989,
+      "max_dd": 47.00000000000016,
+      "profit_factor": 1.303030303030302
+    },
+    "best_with_hc": {
+      "half_close_pct": 2.0,
+      "trades": 127,
+      "win_rate": 66.14173228346458,
+      "total_profit": 52.99999999999987,
+      "max_dd": 34.50000000000011,
+      "profit_to_mdd": 1.5362318840579625
+    },
+    "profitable_configs": 158,
+    "total_configs": 324
+  }
+]
