@@ -35,37 +35,45 @@ live-trading/
 
 ### 1. 환경 변수 설정
 
-```bash
-cp .env.example .env
-# .env 파일 편집하여 API 키 설정
-```
-
-### 2. 시작
+`.env.dev` (개발/테스트넷) 또는 `.env.prod` (프로덕션) 파일 편집:
 
 ```bash
-./start.sh
+# .env.dev - Testnet
+BINANCE_API_KEY=your-testnet-api-key
+BINANCE_SECRET_KEY=your-testnet-secret-key
+TESTNET=true
+HOST_PORT=8088
+
+# .env.prod - Production
+BINANCE_API_KEY=your-prod-api-key
+BINANCE_SECRET_KEY=your-prod-secret-key
+TESTNET=false
+HOST_PORT=8080
 ```
 
-브라우저에서 `http://localhost:8080` 접속
+### 2. 빌드
 
-### 3. 정지
+```bash
+./build.sh dev    # 또는 ./build.sh prod
+```
+
+### 3. 시작
+
+```bash
+./start.sh dev    # 개발: http://localhost:8088
+./start.sh prod   # 프로덕션: http://localhost:8080
+```
+
+### 4. 정지
 
 ```bash
 ./stop.sh
 ```
 
-### 4. 로그 확인
+### 5. 로그 확인
 
 ```bash
 podman-compose logs -f
-```
-
-### 포트 변경
-
-`.env` 파일에서 `HOST_PORT` 수정:
-
-```bash
-HOST_PORT=8088
 ```
 
 ## 개발 모드 (로컬 실행)
@@ -86,6 +94,7 @@ npm run dev
 |----------|--------|-------------|
 | `/api/status` | GET | 현재 상태 (트레이딩 on/off, 포지션, 거래 수) |
 | `/api/config` | GET | 설정 정보 (프로필, 레버리지, TP/SL) |
+| `/api/config` | POST | 설정 변경 (position_size) |
 | `/api/position` | GET | 현재 포지션 상세 |
 | `/api/trades` | GET | 거래 내역 |
 | `/api/toggle` | POST | 트레이딩 on/off 토글 |
@@ -95,7 +104,7 @@ npm run dev
 
 - **Dashboard**: 현재 상태, 포지션, 선택된 프로필 요약
 - **History**: 거래 내역 테이블 (시간, 진입/청산가, 결과, PnL%)
-- **Settings**: API 키, 프로필 선택, 트레이딩 on/off
+- **Settings**: API 키, 프로필 선택, 투자 비율(%), 트레이딩 on/off
 
 ## 백테스트 결과
 

@@ -213,5 +213,13 @@ func (e *Engine) GetTrades() []types.Trade {
 }
 
 func (e *Engine) GetConfig() *config.Config {
+	e.mu.RLock()
+	defer e.mu.RUnlock()
 	return e.cfg
+}
+
+func (e *Engine) SetPositionSize(size float64) {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	e.cfg.Strategy.PositionSize = size
 }

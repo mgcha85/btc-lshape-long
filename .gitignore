@@ -88,3 +88,6 @@ node_modules/
 *.exe~
 *.dll
 *.dylib
+
+# Live trading secrets (keep .env.dev, .env.prod as templates)
+live-trading/.env

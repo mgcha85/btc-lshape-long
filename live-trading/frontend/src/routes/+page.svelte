@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { fetchStatus, fetchTrades, toggleTrading } from '$lib/api.js';
+	import { fetchStatus, fetchTrades, fetchConfig, toggleTrading, updateConfig } from '$lib/api.js';
 	import { PROFILES, BACKTEST_URL } from '$lib/config.js';
 	
 	let activeTab = 'dashboard';
@@ -13,6 +13,7 @@
 		apiKey: '',
 		secretKey: '',
 		profile: '5m-balanced',
+		positionSize: 20,
 		tradingEnabled: false
 	};
 	
@@ -26,7 +27,9 @@
 		try {
 			status = await fetchStatus();
 			trades = await fetchTrades();
+			const config = await fetchConfig();
 			settings.tradingEnabled = status?.trading_enabled || false;
+			settings.positionSize = (config?.position_size || 0.2) * 100;
 			loading = false;
 		} catch (e) {
 			error = 'Failed to connect to engine';
@@ -40,6 +43,14 @@
 			settings.tradingEnabled = result.enabled;
 		} catch (e) {
 			error = 'Failed to toggle trading';
+		}
+	}
+	
+	async function handlePositionSizeChange() {
+		try {
+			await updateConfig({ position_size: settings.positionSize / 100 });
+		} catch (e) {
+			error = 'Failed to update position size';
 		}
 	}
 	
@@ -200,6 +211,25 @@
 								</div>
 							</label>
 						{/each}
+					</div>
+				</div>
+				
+				<div class="card">
+					<h3>Position Size</h3>
+					<div class="form-group">
+						<label for="position-size">Allocation per trade (% of total balance)</label>
+						<div class="slider-container">
+							<input 
+								type="range" 
+								id="position-size"
+								min="1" 
+								max="100" 
+								bind:value={settings.positionSize}
+								on:change={handlePositionSizeChange}
+							/>
+							<span class="slider-value">{settings.positionSize}%</span>
+						</div>
+						<p class="hint">Recommended: 10-30% for risk management</p>
 					</div>
 				</div>
 				
@@ -506,6 +536,43 @@
 		border-radius: 8px;
 		color: #fca5a5;
 		font-size: 0.85rem;
+	}
+	
+	.slider-container {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+	
+	.slider-container input[type="range"] {
+		flex: 1;
+		height: 8px;
+		border-radius: 4px;
+		background: #334155;
+		cursor: pointer;
+		-webkit-appearance: none;
+	}
+	
+	.slider-container input[type="range"]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: #3b82f6;
+		cursor: pointer;
+	}
+	
+	.slider-value {
+		min-width: 50px;
+		text-align: right;
+		font-weight: 600;
+		color: #3b82f6;
+	}
+	
+	.hint {
+		margin-top: 8px;
+		font-size: 0.8rem;
+		color: #64748b;
 	}
 	
 	footer {

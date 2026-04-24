@@ -87,6 +87,26 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleConfig(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		var req struct {
+			PositionSize float64 `json:"position_size"`
+		}
+		
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		
+		if req.PositionSize > 0 && req.PositionSize <= 1 {
+			s.engine.SetPositionSize(req.PositionSize)
+		}
+		
+		s.jsonResponse(w, map[string]interface{}{
+			"position_size": s.engine.GetConfig().Strategy.PositionSize,
+		})
+		return
+	}
+	
 	cfg := s.engine.GetConfig()
 	
 	response := map[string]interface{}{

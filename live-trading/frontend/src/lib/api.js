@@ -33,3 +33,12 @@ export async function fetchProfiles() {
 	const res = await fetch(`${API_BASE}/api/profiles`);
 	return res.json();
 }
+
+export async function updateConfig(config) {
+	const res = await fetch(`${API_BASE}/api/config`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(config)
+	});
+	return res.json();
+}
