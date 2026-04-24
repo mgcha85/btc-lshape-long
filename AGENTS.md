@@ -24,6 +24,19 @@ This repository is configured for OpenCode-style agent workflows.
   - `report.py`, `storage.py`: reporting and persistence
 - Executable scripts: `scripts/`
   - 5m/15m/4h/1h analyses and multi-asset studies
+- Live trading system: `live-trading/`
+  - `engine/`: Go trading engine
+    - `cmd/main.go`: entry point with graceful shutdown
+    - `internal/config/`: strategy profiles (5m-balanced, 5m-aggressive, 15m-aggressive)
+    - `internal/detector/`: Enhanced L-shape detection (ATR-based)
+    - `internal/engine/`: trading logic, position/trade management
+    - `internal/exchange/`: Binance Futures API client (testnet/production)
+    - `internal/server/`: HTTP API server for frontend communication
+    - `internal/types/`: shared data types
+  - `frontend/`: Svelte frontend
+    - `src/routes/+page.svelte`: main page (Dashboard/History/Settings tabs)
+    - `src/lib/api.js`: API client for engine communication
+    - `src/lib/config.js`: strategy profiles and backtest results
 - Published artifacts:
   - `pages/`: canonical GitHub Pages source for strategy/result pages
   - `docs/`: legacy or supporting artifacts (keep in sync when both are used)
@@ -138,6 +151,11 @@ Settings must include at least:
 - Exchange API key
 - Exchange secret key
 - Trading on/off toggle
+- Telegram notification on/off toggle
+
+Live execution notification rule:
+
+- When a trade is completed (`open -> close`), the system must send a Telegram message if Telegram notifications are enabled.
 
 Deployment rule:
 
@@ -207,7 +225,8 @@ A task is done when all are true:
 5. Output paths and reproduction steps are documented
 6. Strategy note and checkpoints are complete for live-trading-bound tasks
 7. For live scope, F/E build artifacts are integrated into B/E serving path
-8. `.opencode/IMPLEMENT.md` is updated for non-trivial tasks
+8. For live scope, completed trades (`open -> close`) trigger Telegram notifications when enabled
+9. `.opencode/IMPLEMENT.md` is updated for non-trivial tasks
 
 ## 18) Output Style for Agents
 
