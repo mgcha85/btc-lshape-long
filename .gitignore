@@ -1,78 +1,36 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+# Dependencies
+node_modules/
 
-# Virtual environments
-venv/
-ENV/
-env/
-.venv/
+# Build outputs
+backend/bin/
+frontend/dist/
+
+# Environment files with secrets
+.env
+.env.local
+backend/.env.prod
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+data/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-*~
-
-# Data files (keep structure, ignore large files)
-*.db
-*.sqlite
-*.parquet
-data/*.csv
-
-# Jupyter
-.ipynb_checkpoints/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-logs/
-
-# Local config
-.env
-.env.local
-
-# Cache
-.cache/
-.pytest_cache/
-.ruff_cache/
-
-# Coverage
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover
-
-# Build
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# mypy
-.mypy_cache/
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
