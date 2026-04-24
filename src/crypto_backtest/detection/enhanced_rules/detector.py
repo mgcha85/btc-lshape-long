@@ -366,3 +366,160 @@ class EnhancedLShapeDetector:
                 results.append((idx, result))
         
         return results
+    
+    def detect_batch_vectorized(
+        self,
+        df: pl.DataFrame,
+        ma_column: str = "ma_50",
+        min_idx: int = 50,
+    ) -> list[tuple[int, DetectionResult]]:
+        """
+        Vectorized batch detection - much faster than row-by-row.
+        
+        Pre-computes all indicators, then filters.
+        """
+        n = len(df)
+        
+        # Extract arrays once
+        high = df["high"].to_numpy()
+        low = df["low"].to_numpy()
+        close = df["close"].to_numpy()
+        open_ = df["open"].to_numpy()
+        volume = df["volume"].to_numpy() if "volume" in df.columns else np.ones(n)
+        
+        ma = df[ma_column].to_numpy() if ma_column in df.columns else np.full(n, np.nan)
+        
+        # 1. Pre-compute rolling ATR
+        period = self.config.atr_period
+        tr = np.maximum(
+            high - low,
+            np.maximum(
+                np.abs(high - np.roll(close, 1)),
+                np.abs(low - np.roll(close, 1))
+            )
+        )
+        tr[:1] = high[:1] - low[:1]
+        
+        # Rolling mean ATR
+        atr = np.convolve(tr, np.ones(period)/period, mode='same')
+        atr[:period] = np.nan
+        
+        # 2. Pre-compute rolling highs/lows for drop detection
+        lookback = self.config.drop_lookback
+        half = lookback // 2
+        
+        # Rolling max high in first half of lookback
+        rolling_max_high = np.full(n, np.nan)
+        rolling_min_low = np.full(n, np.nan)
+        
+        for i in range(lookback, n):
+            rolling_max_high[i] = np.max(high[i-lookback:i-half])
+            rolling_min_low[i] = np.min(low[i-half:i])
+        
+        drop_pct = np.where(
+            rolling_max_high > 0,
+            (rolling_max_high - rolling_min_low) / rolling_max_high * 100,
+            0
+        )
+        
+        # 3. Pre-compute consolidation metrics
+        bars = self.config.consolidation_bars
+        consol_range_pct = np.full(n, np.nan)
+        flatness_scores = np.full(n, 1.0)
+        
+        for i in range(bars, n):
+            window_high = np.max(high[i-bars:i])
+            window_low = np.min(low[i-bars:i])
+            window_close = close[i-bars:i]
+            
+            if window_low > 0:
+                consol_range_pct[i] = (window_high - window_low) / window_low * 100
+            
+            price_range = window_high - window_low
+            if price_range > 0:
+                flatness_scores[i] = np.std(window_close) / price_range
+        
+        # 4. Pre-compute volume decline
+        volume_declining = np.full(n, True)
+        for i in range(bars, n):
+            x = np.arange(bars)
+            vol_window = volume[i-bars:i]
+            slope = np.polyfit(x, vol_window, 1)[0]
+            volume_declining[i] = slope < 0
+        
+        # 5. Pre-compute MA breakout
+        prev_close = np.roll(close, 1)
+        prev_ma = np.roll(ma, 1)
+        
+        was_below = prev_close < prev_ma
+        broke_above = close > ma
+        bullish = close > open_
+        breakout = was_below & broke_above & bullish
+        breakout[:1] = False
+        
+        # 6. Apply conditions
+        results = []
+        
+        for idx in range(min_idx, n):
+            if np.isnan(atr[idx]) or atr[idx] <= 0:
+                continue
+            
+            current_price = close[idx]
+            atr_pct = (atr[idx] / current_price * 100) if current_price > 0 else 0
+            
+            # Drop threshold
+            drop_threshold = atr_pct * self.config.drop_atr_multiplier
+            drop_ok = drop_pct[idx] >= drop_threshold
+            
+            # Consolidation threshold
+            consol_threshold = atr_pct * self.config.consolidation_atr_multiplier
+            consol_ok = consol_range_pct[idx] <= consol_threshold
+            flatness_ok = flatness_scores[idx] <= self.config.flatness_threshold
+            
+            # Volume
+            volume_ok = True
+            if self.config.volume_decline_required:
+                volume_ok = volume_declining[idx]
+            
+            # Breakout
+            breakout_ok = breakout[idx]
+            
+            # All conditions
+            detected = drop_ok and consol_ok and flatness_ok and breakout_ok and volume_ok
+            
+            if not detected:
+                continue
+            
+            # Calculate confidence
+            confidence = self.calculate_confidence(
+                drop_pct=drop_pct[idx],
+                range_pct=consol_range_pct[idx],
+                flatness_score=flatness_scores[idx],
+                volume_declining=volume_declining[idx],
+                pivot_quality=0.5,  # Skip expensive pivot calc
+                atr_pct=atr_pct,
+            )
+            
+            if confidence < self.config.min_confidence:
+                continue
+            
+            result = DetectionResult(
+                detected=True,
+                confidence=confidence,
+                drop_pct=drop_pct[idx],
+                consolidation_range_pct=consol_range_pct[idx],
+                flatness_score=flatness_scores[idx],
+                volume_declining=volume_declining[idx],
+                pivot_quality=0.5,
+                details={
+                    "atr": atr[idx],
+                    "atr_pct": atr_pct,
+                    "drop_ok": drop_ok,
+                    "consol_ok": consol_ok,
+                    "breakout_ok": breakout_ok,
+                    "volume_ok": volume_ok,
+                },
+            )
+            results.append((idx, result))
+        
+        return results

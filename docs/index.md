@@ -14,20 +14,20 @@ permalink: /
 
 <div class="stat-grid" markdown="0">
   <div class="stat-card green">
-    <div class="stat-value">112.5%</div>
-    <div class="stat-label">1H 총 수익</div>
+    <div class="stat-value">1,480%</div>
+    <div class="stat-label">Enhanced 복리 수익</div>
   </div>
   <div class="stat-card gold">
-    <div class="stat-value">69.7%</div>
-    <div class="stat-label">1H 승률</div>
+    <div class="stat-value">55%</div>
+    <div class="stat-label">CAGR</div>
   </div>
   <div class="stat-card red">
-    <div class="stat-value">26%</div>
-    <div class="stat-label">1H 최대 낙폭</div>
+    <div class="stat-value">48%</div>
+    <div class="stat-label">Max DD</div>
   </div>
   <div class="stat-card blue">
-    <div class="stat-value">4.33</div>
-    <div class="stat-label">1H 수익/MDD</div>
+    <div class="stat-value">1.14</div>
+    <div class="stat-label">Calmar Ratio</div>
   </div>
 </div>
 
@@ -188,6 +188,16 @@ permalink: /
     <div class="nav-card-icon">🧪</div>
     <div class="nav-card-title">Train/Test Split 검증</div>
     <div class="nav-card-desc">2020-2025 학습, 2026 테스트 - BTC vs ETH</div>
+  </a>
+</div>
+
+### Enhanced Strategy (신규)
+
+<div class="nav-cards" markdown="0">
+  <a class="nav-card" href="{{ '/enhanced-strategy' | relative_url }}">
+    <div class="nav-card-icon">🚀</div>
+    <div class="nav-card-title">Enhanced Strategy Results</div>
+    <div class="nav-card-desc">ATR 기반 감지 + Kelly Criterion 포지션 사이징 - CAGR 55%</div>
   </a>
 </div>
 
