@@ -31,39 +31,44 @@ live-trading/
 
 **추천**: `5m-balanced` (최고 Calmar ratio)
 
-## 실행
+## 실행 (Podman)
 
 ### 1. 환경 변수 설정
 
 ```bash
-export BINANCE_API_KEY="your-api-key"
-export BINANCE_SECRET_KEY="your-secret-key"
-export SYMBOL="ETHUSDT"
-export STRATEGY_PROFILE="5m-balanced"
-export TRADING_ENABLED="false"
-export TESTNET="true"
-export SERVER_PORT="8080"
-export STATIC_DIR="../frontend/build"
+cp .env.example .env
+# .env 파일 편집하여 API 키 설정
 ```
 
-### 2. 프론트엔드 빌드
+### 2. 시작
 
 ```bash
-cd live-trading/frontend
-npm install
-npm run build
-```
-
-### 3. Go 엔진 실행 (프론트엔드 포함)
-
-```bash
-cd live-trading/engine
-go run cmd/main.go
+./start.sh
 ```
 
 브라우저에서 `http://localhost:8080` 접속
 
-### 개발 모드 (프론트엔드 별도 실행)
+### 3. 정지
+
+```bash
+./stop.sh
+```
+
+### 4. 로그 확인
+
+```bash
+podman-compose logs -f
+```
+
+### 포트 변경
+
+`.env` 파일에서 `HOST_PORT` 수정:
+
+```bash
+HOST_PORT=8088
+```
+
+## 개발 모드 (로컬 실행)
 
 ```bash
 # Terminal 1: Go 엔진
