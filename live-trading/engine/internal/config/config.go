@@ -10,9 +10,10 @@ import (
 )
 
 type Config struct {
-	Exchange ExchangeConfig `yaml:"exchange"`
-	Strategy StrategyConfig `yaml:"strategy"`
-	Server   ServerConfig   `yaml:"server"`
+	Exchange ExchangeConfig  `yaml:"exchange"`
+	Strategy StrategyConfig  `yaml:"strategy"`
+	Server   ServerConfig    `yaml:"server"`
+	Telegram TelegramConfig  `yaml:"telegram"`
 }
 
 type ExchangeConfig struct {
@@ -36,6 +37,12 @@ type StrategyConfig struct {
 type ServerConfig struct {
 	Port      int    `yaml:"port"`
 	StaticDir string `yaml:"static_dir"`
+}
+
+type TelegramConfig struct {
+	BotToken string `yaml:"bot_token"`
+	ChatID   string `yaml:"chat_id"`
+	Enabled  bool   `yaml:"enabled"`
 }
 
 var Profiles = map[string]StrategyConfig{
@@ -110,6 +117,11 @@ func Load() (*Config, error) {
 		Server: ServerConfig{
 			Port:      getEnvOrDefaultInt("SERVER_PORT", 8080),
 			StaticDir: getEnvOrDefault("STATIC_DIR", "./static"),
+		},
+		Telegram: TelegramConfig{
+			BotToken: os.Getenv("TELEGRAM_BOT_TOKEN"),
+			ChatID:   os.Getenv("TELEGRAM_CHAT_ID"),
+			Enabled:  getEnvOrDefault("TELEGRAM_ENABLED", "false") == "true",
 		},
 	}
 

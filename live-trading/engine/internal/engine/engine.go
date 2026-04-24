@@ -10,6 +10,7 @@ import (
 	"github.com/mgcha85/lshape-engine/internal/config"
 	"github.com/mgcha85/lshape-engine/internal/detector"
 	"github.com/mgcha85/lshape-engine/internal/exchange"
+	"github.com/mgcha85/lshape-engine/internal/notifier"
 	"github.com/mgcha85/lshape-engine/internal/types"
 )
 
@@ -17,6 +18,7 @@ type Engine struct {
 	cfg      *config.Config
 	exchange exchange.Exchange
 	detector *detector.EnhancedDetector
+	notifier *notifier.TelegramNotifier
 	position *types.Position
 	trades   []types.Trade
 	mu       sync.RWMutex
@@ -30,11 +32,13 @@ func New(cfg *config.Config) (*Engine, error) {
 	}
 
 	det := detector.NewEnhanced(cfg.Strategy.Timeframe)
+	tg := notifier.NewTelegram(cfg.Telegram.BotToken, cfg.Telegram.ChatID, cfg.Telegram.Enabled)
 
 	return &Engine{
 		cfg:      cfg,
 		exchange: ex,
 		detector: det,
+		notifier: tg,
 		trades:   make([]types.Trade, 0),
 		enabled:  cfg.Strategy.Enabled,
 	}, nil
@@ -185,6 +189,11 @@ func (e *Engine) closePosition(ctx context.Context, reason string) error {
 	e.position = nil
 
 	log.Printf("Closed position: %s at %.2f, PnL: %.2f%%", reason, order.AvgPrice, trade.PnLPct)
+
+	if err := e.notifier.SendTradeNotification(trade); err != nil {
+		log.Printf("Failed to send telegram notification: %v", err)
+	}
+
 	return nil
 }
 
@@ -222,4 +231,17 @@ func (e *Engine) SetPositionSize(size float64) {
 	e.mu.Lock()
 	defer e.mu.Unlock()
 	e.cfg.Strategy.PositionSize = size
+}
+
+func (e *Engine) IsTelegramEnabled() bool {
+	e.mu.RLock()
+	defer e.mu.RUnlock()
+	return e.notifier.IsEnabled()
+}
+
+func (e *Engine) SetTelegramEnabled(enabled bool) {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	e.notifier.SetEnabled(enabled)
+	e.cfg.Telegram.Enabled = enabled
 }

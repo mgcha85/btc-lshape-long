@@ -42,3 +42,12 @@ export async function updateConfig(config) {
 	});
 	return res.json();
 }
+
+export async function toggleTelegram(enabled) {
+	const res = await fetch(`${API_BASE}/api/telegram/toggle`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ enabled })
+	});
+	return res.json();
+}

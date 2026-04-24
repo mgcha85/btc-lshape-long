@@ -33,6 +33,7 @@ func New(cfg *config.Config, eng *engine.Engine) *Server {
 	mux.HandleFunc("/api/position", s.corsMiddleware(s.handlePosition))
 	mux.HandleFunc("/api/trades", s.corsMiddleware(s.handleTrades))
 	mux.HandleFunc("/api/toggle", s.corsMiddleware(s.handleToggle))
+	mux.HandleFunc("/api/telegram/toggle", s.corsMiddleware(s.handleTelegramToggle))
 	mux.HandleFunc("/api/profiles", s.corsMiddleware(s.handleProfiles))
 	
 	staticDir := cfg.Server.StaticDir
@@ -75,12 +76,13 @@ func (s *Server) corsMiddleware(next http.HandlerFunc) http.HandlerFunc {
 
 func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 	status := map[string]interface{}{
-		"trading_enabled": s.engine.IsEnabled(),
-		"profile":         s.cfg.Strategy.Profile,
-		"symbol":          s.cfg.Exchange.Symbol,
-		"timeframe":       s.cfg.Strategy.Timeframe,
-		"position":        s.engine.GetPosition(),
-		"trade_count":     len(s.engine.GetTrades()),
+		"trading_enabled":  s.engine.IsEnabled(),
+		"telegram_enabled": s.engine.IsTelegramEnabled(),
+		"profile":          s.cfg.Strategy.Profile,
+		"symbol":           s.cfg.Exchange.Symbol,
+		"timeframe":        s.cfg.Strategy.Timeframe,
+		"position":         s.engine.GetPosition(),
+		"trade_count":      len(s.engine.GetTrades()),
 	}
 
 	s.jsonResponse(w, status)
@@ -150,6 +152,26 @@ func (s *Server) handleToggle(w http.ResponseWriter, r *http.Request) {
 	s.engine.SetEnabled(req.Enabled)
 
 	s.jsonResponse(w, map[string]bool{"enabled": s.engine.IsEnabled()})
+}
+
+func (s *Server) handleTelegramToggle(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req struct {
+		Enabled bool `json:"enabled"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	s.engine.SetTelegramEnabled(req.Enabled)
+
+	s.jsonResponse(w, map[string]bool{"enabled": s.engine.IsTelegramEnabled()})
 }
 
 func (s *Server) handleProfiles(w http.ResponseWriter, r *http.Request) {

@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { fetchStatus, fetchTrades, fetchConfig, toggleTrading, updateConfig } from '$lib/api.js';
+	import { fetchStatus, fetchTrades, fetchConfig, toggleTrading, updateConfig, toggleTelegram } from '$lib/api.js';
 	import { PROFILES, BACKTEST_URL } from '$lib/config.js';
 	
 	let activeTab = 'dashboard';
@@ -14,7 +14,8 @@
 		secretKey: '',
 		profile: '5m-balanced',
 		positionSize: 20,
-		tradingEnabled: false
+		tradingEnabled: false,
+		telegramEnabled: false
 	};
 	
 	onMount(async () => {
@@ -29,6 +30,7 @@
 			trades = await fetchTrades();
 			const config = await fetchConfig();
 			settings.tradingEnabled = status?.trading_enabled || false;
+			settings.telegramEnabled = status?.telegram_enabled || false;
 			settings.positionSize = (config?.position_size || 0.2) * 100;
 			loading = false;
 		} catch (e) {
@@ -43,6 +45,15 @@
 			settings.tradingEnabled = result.enabled;
 		} catch (e) {
 			error = 'Failed to toggle trading';
+		}
+	}
+	
+	async function handleTelegramToggle() {
+		try {
+			const result = await toggleTelegram(!settings.telegramEnabled);
+			settings.telegramEnabled = result.enabled;
+		} catch (e) {
+			error = 'Failed to toggle telegram';
 		}
 	}
 	
@@ -246,6 +257,21 @@
 						</button>
 					</div>
 					<p class="warning">⚠️ Enabling will start live trading with real funds</p>
+				</div>
+				
+				<div class="card">
+					<h3>Telegram Notifications</h3>
+					<div class="toggle-section">
+						<span>Enable Notifications</span>
+						<button 
+							class="toggle-btn" 
+							class:on={settings.telegramEnabled}
+							on:click={handleTelegramToggle}
+						>
+							{settings.telegramEnabled ? 'ON' : 'OFF'}
+						</button>
+					</div>
+					<p class="hint">Receive trade completion notifications via Telegram</p>
 				</div>
 			</section>
 		{/if}

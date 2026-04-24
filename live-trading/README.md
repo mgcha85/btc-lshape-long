@@ -43,12 +43,18 @@ BINANCE_API_KEY=your-testnet-api-key
 BINANCE_SECRET_KEY=your-testnet-secret-key
 TESTNET=true
 HOST_PORT=8088
+TELEGRAM_BOT_TOKEN=your-bot-token
+TELEGRAM_CHAT_ID=your-chat-id
+TELEGRAM_ENABLED=false
 
 # .env.prod - Production
 BINANCE_API_KEY=your-prod-api-key
 BINANCE_SECRET_KEY=your-prod-secret-key
 TESTNET=false
 HOST_PORT=8080
+TELEGRAM_BOT_TOKEN=your-bot-token
+TELEGRAM_CHAT_ID=your-chat-id
+TELEGRAM_ENABLED=false
 ```
 
 ### 2. 빌드
@@ -98,13 +104,14 @@ npm run dev
 | `/api/position` | GET | 현재 포지션 상세 |
 | `/api/trades` | GET | 거래 내역 |
 | `/api/toggle` | POST | 트레이딩 on/off 토글 |
+| `/api/telegram/toggle` | POST | Telegram 알림 on/off 토글 |
 | `/api/profiles` | GET | 사용 가능한 프로필 목록 |
 
 ## 프론트엔드 탭
 
 - **Dashboard**: 현재 상태, 포지션, 선택된 프로필 요약
 - **History**: 거래 내역 테이블 (시간, 진입/청산가, 결과, PnL%)
-- **Settings**: API 키, 프로필 선택, 투자 비율(%), 트레이딩 on/off
+- **Settings**: API 키, 프로필 선택, 투자 비율(%), 트레이딩 on/off, Telegram 알림 on/off
 
 ## 백테스트 결과
 
