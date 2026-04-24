@@ -1,8 +1,6 @@
 services:
   lshape-trader:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: localhost/lshape-trader:latest
     container_name: lshape-trader
     restart: unless-stopped
     ports:

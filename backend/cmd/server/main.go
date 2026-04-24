@@ -442,6 +442,8 @@ func main() {
 
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
+		ReadBufferSize:        16384,
+		WriteBufferSize:       16384,
 	})
 
 	handler := api.NewHandler()

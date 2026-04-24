@@ -1,6 +1,6 @@
-FROM golang:1.22-alpine AS builder
+FROM golang:1.22-bookworm AS builder
 
-RUN apk add --no-cache gcc musl-dev
+RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -10,9 +10,9 @@ RUN go mod download
 COPY backend/ .
 RUN CGO_ENABLED=1 GOOS=linux go build -o /server ./cmd/server
 
-FROM alpine:3.19
+FROM debian:bookworm-slim
 
-RUN apk add --no-cache ca-certificates tzdata
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates tzdata && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
