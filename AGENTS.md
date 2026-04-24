@@ -139,6 +139,10 @@ Settings must include at least:
 - Exchange secret key
 - Trading on/off toggle
 
+Deployment rule:
+
+- F/E must be built and the build artifacts served through B/E.
+
 ## 13) Commands and Verification
 
 Environment setup:
@@ -202,7 +206,8 @@ A task is done when all are true:
 4. Required metrics are reported
 5. Output paths and reproduction steps are documented
 6. Strategy note and checkpoints are complete for live-trading-bound tasks
-7. `.opencode/IMPLEMENT.md` is updated for non-trivial tasks
+7. For live scope, F/E build artifacts are integrated into B/E serving path
+8. `.opencode/IMPLEMENT.md` is updated for non-trivial tasks
 
 ## 18) Output Style for Agents
 

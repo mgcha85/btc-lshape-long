@@ -10,7 +10,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+/lib/
 lib64/
 parts/
 sdist/
@@ -77,4 +77,14 @@ pip-delete-this-directory.txt
 # mypy
 .mypy_cache/
 
-.opencode/
+.opencode
+
+# Node.js
+node_modules/
+.svelte-kit/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.dylib
