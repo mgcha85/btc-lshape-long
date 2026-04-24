@@ -152,6 +152,7 @@ Settings must include at least:
 - Exchange secret key
 - Trading on/off toggle
 - Telegram notification on/off toggle
+- Per-trade allocation ratio as % of total balance
 
 Live execution notification rule:
 
