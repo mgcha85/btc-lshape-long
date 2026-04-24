@@ -184,6 +184,11 @@ permalink: /
     <div class="nav-card-title">Multi-Asset 1H 분석</div>
     <div class="nav-card-desc">ETH, SOL, XRP 등 7개 코인 비교 분석</div>
   </a>
+  <a class="nav-card" href="{{ '/train-test-split' | relative_url }}">
+    <div class="nav-card-icon">🧪</div>
+    <div class="nav-card-title">Train/Test Split 검증</div>
+    <div class="nav-card-desc">2020-2025 학습, 2026 테스트 - BTC vs ETH</div>
+  </a>
 </div>
 
 ### 공통
