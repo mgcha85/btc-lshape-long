@@ -36,7 +36,7 @@ class LabelResult:
 @dataclass
 class GeminiLabelerConfig:
     api_key: str
-    model: str = "gemini-2.0-flash"
+    model: str = "gemini-2.5-flash"
     chart_width: int = 800
     chart_height: int = 400
     lookback_bars: int = 100
