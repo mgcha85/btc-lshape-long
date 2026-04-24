@@ -191,6 +191,26 @@ permalink: /
   </a>
 </div>
 
+### 성과 분석
+
+<div class="nav-cards" markdown="0">
+  <a class="nav-card" href="{{ '/monthly-returns' | relative_url }}">
+    <div class="nav-card-icon">📅</div>
+    <div class="nav-card-title">월별 수익률 분석</div>
+    <div class="nav-card-desc">BTC +110%, ETH +157% - 연도별/월별 성과</div>
+  </a>
+  <a class="nav-card" href="{{ '/detection-quality' | relative_url }}">
+    <div class="nav-card-icon">🎯</div>
+    <div class="nav-card-title">감지 품질 분석</div>
+    <div class="nav-card-desc">TP/SL 적중률, 시장 상태별 성과</div>
+  </a>
+  <a class="nav-card" href="{{ '/optimization' | relative_url }}">
+    <div class="nav-card-icon">⚡</div>
+    <div class="nav-card-title">파라미터 최적화</div>
+    <div class="nav-card-desc">공격적/균형/보수적 프로필 권장사항</div>
+  </a>
+</div>
+
 ### 공통
 
 <div class="nav-cards" markdown="0">
