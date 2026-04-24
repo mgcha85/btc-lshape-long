@@ -5,6 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/mgcha85/lshape-engine/internal/config"
@@ -24,12 +27,18 @@ func New(cfg *config.Config, eng *engine.Engine) *Server {
 	}
 
 	mux := http.NewServeMux()
+	
 	mux.HandleFunc("/api/status", s.corsMiddleware(s.handleStatus))
 	mux.HandleFunc("/api/config", s.corsMiddleware(s.handleConfig))
 	mux.HandleFunc("/api/position", s.corsMiddleware(s.handlePosition))
 	mux.HandleFunc("/api/trades", s.corsMiddleware(s.handleTrades))
 	mux.HandleFunc("/api/toggle", s.corsMiddleware(s.handleToggle))
 	mux.HandleFunc("/api/profiles", s.corsMiddleware(s.handleProfiles))
+	
+	staticDir := cfg.Server.StaticDir
+	if _, err := os.Stat(staticDir); err == nil {
+		mux.Handle("/", s.spaHandler(staticDir))
+	}
 
 	s.server = &http.Server{
 		Addr:    fmt.Sprintf(":%d", cfg.Server.Port),
@@ -146,4 +155,24 @@ func (s *Server) handleProfiles(w http.ResponseWriter, r *http.Request) {
 func (s *Server) jsonResponse(w http.ResponseWriter, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
+}
+
+func (s *Server) spaHandler(staticDir string) http.Handler {
+	fileServer := http.FileServer(http.Dir(staticDir))
+	
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/api/") {
+			http.NotFound(w, r)
+			return
+		}
+		
+		path := filepath.Join(staticDir, r.URL.Path)
+		
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			http.ServeFile(w, r, filepath.Join(staticDir, "index.html"))
+			return
+		}
+		
+		fileServer.ServeHTTP(w, r)
+	})
 }

@@ -34,7 +34,8 @@ type StrategyConfig struct {
 }
 
 type ServerConfig struct {
-	Port int `yaml:"port"`
+	Port      int    `yaml:"port"`
+	StaticDir string `yaml:"static_dir"`
 }
 
 var Profiles = map[string]StrategyConfig{
@@ -107,7 +108,8 @@ func Load() (*Config, error) {
 			Enabled: getEnvOrDefault("TRADING_ENABLED", "false") == "true",
 		},
 		Server: ServerConfig{
-			Port: getEnvOrDefaultInt("SERVER_PORT", 8080),
+			Port:      getEnvOrDefaultInt("SERVER_PORT", 8080),
+			StaticDir: getEnvOrDefault("STATIC_DIR", "./static"),
 		},
 	}
 

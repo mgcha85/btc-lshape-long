@@ -1,4 +1,4 @@
-export const API_BASE = 'http://localhost:8080';
+export const API_BASE = '';
 
 export const BACKTEST_URL = 'https://mgcha85.github.io/btc-lshape-long/realistic-backtest';
 

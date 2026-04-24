@@ -43,27 +43,36 @@ export STRATEGY_PROFILE="5m-balanced"
 export TRADING_ENABLED="false"
 export TESTNET="true"
 export SERVER_PORT="8080"
+export STATIC_DIR="../frontend/build"
 ```
 
-### 2. Go 엔진 실행
+### 2. 프론트엔드 빌드
+
+```bash
+cd live-trading/frontend
+npm install
+npm run build
+```
+
+### 3. Go 엔진 실행 (프론트엔드 포함)
 
 ```bash
 cd live-trading/engine
 go run cmd/main.go
 ```
 
-### 3. 프론트엔드 실행 (개발)
+브라우저에서 `http://localhost:8080` 접속
+
+### 개발 모드 (프론트엔드 별도 실행)
 
 ```bash
+# Terminal 1: Go 엔진
+cd live-trading/engine
+go run cmd/main.go
+
+# Terminal 2: Svelte dev server
 cd live-trading/frontend
-npm install
 npm run dev
-```
-
-### 4. 프론트엔드 빌드 (프로덕션)
-
-```bash
-npm run build
 ```
 
 ## API 엔드포인트
