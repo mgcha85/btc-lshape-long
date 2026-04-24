@@ -199,6 +199,11 @@ permalink: /
     <div class="nav-card-title">Enhanced Strategy Results</div>
     <div class="nav-card-desc">ATR 기반 감지 + Kelly Criterion 포지션 사이징 - CAGR 55%</div>
   </a>
+  <a class="nav-card" href="{{ '/realistic-backtest' | relative_url }}">
+    <div class="nav-card-icon">💰</div>
+    <div class="nav-card-title">Realistic Backtest (수수료 포함)</div>
+    <div class="nav-card-desc">5M/15M/1H 비교 - 5M Balanced 최적 (Calmar 1.05)</div>
+  </a>
 </div>
 
 ### 성과 분석
